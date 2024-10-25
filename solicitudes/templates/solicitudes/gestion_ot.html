@@ -1,0 +1,112 @@
+{% extends "solicitudes/indexpadre.html" %}
+
+{% block title %}Gestión de OT's{% endblock %}
+
+{% block content %}
+<div class="view-buttons">
+        <button onclick="showKanban()">Tablero</button>
+        <button onclick="showCalendar()">Calendario</button>
+        <button onclick="showList()">Lista</button>
+        <input type="date" id="filter-date-start">
+        <input type="date" id="filter-date-end">
+        <button onclick="applyDateFilter()">Aplicar Filtro</button>
+    </div>
+    
+    <h1>Gestión de Órdenes de Trabajo</h1>
+{% comment %} <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Solicitud</button>
+</form> {% endcomment %}
+
+<div class="kanban-container">
+    <div class="kanban-column" id="solicitudes" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h2>Solicitudes</h2>
+        <div class="kanban-content">
+            {% for solicitud in solicitudes %}
+                {% if solicitud.estado == 'Solicitudes' %}
+                    <div class="kanban-card" id="card-{{ solicitud.numero_activo }}" draggable="true" ondragstart="drag(event)">
+                        <h3>Solicitud 00{{ solicitud.numero_activo }}</h3>
+                        <h4>PDV: {{ solicitud.PDV }}</h4>
+                        <p>{{ solicitud.descripcion_problema|slice:":50" }}...</p>
+                        <small>{{ solicitud.fecha_creacion }}</small>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="kanban-column" id="ot_en_proceso" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h2>OT en Proceso</h2>
+        <div class="kanban-content">
+            {% for solicitud in solicitudes %}
+                {% if solicitud.estado == 'OT en Proceso' %}
+                    <div class="kanban-card" id="card-{{ solicitud.numero_activo }}" draggable="true" ondragstart="drag(event)">
+                        <h3>Solicitud 00{{ solicitud.numero_activo }}</h3>
+                        <h4>PDV: {{ solicitud.PDV }}</h4>
+                        <p>{{ solicitud.descripcion_problema|slice:":50" }}...</p>
+                        <small>{{ solicitud.fecha_creacion }}</small>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="kanban-column" id="ot_en_revision" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h2>OT en Revisión</h2>
+        <div class="kanban-content">
+            {% for solicitud in solicitudes %}
+                {% if solicitud.estado == 'OT en Revisión' %}
+                    <div class="kanban-card" id="card-{{ solicitud.numero_activo }}" draggable="true" ondragstart="drag(event)">
+                        <h3>Solicitud 00{{ solicitud.numero_activo }}</h3>
+                        <h4>PDV: {{ solicitud.PDV }}</h4>
+                        <p>{{ solicitud.descripcion_problema|slice:":50" }}...</p>
+                        <small>{{ solicitud.fecha_creacion }}</small>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="kanban-column" id="ot_finalizada" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <h2>OT Finalizada</h2>
+        <div class="kanban-content">
+            {% for solicitud in solicitudes %}
+                {% if solicitud.estado == 'OT Finalizada' %}
+                    <div class="kanban-card" id="card-{{ solicitud.numero_activo }}" draggable="true" ondragstart="drag(event)">
+                        <h3>Solicitud 00{{ solicitud.numero_activo }}</h3>
+                        <h4>PDV: {{ solicitud.PDV }}</h4>
+                        <p>{{ solicitud.descripcion_problema|slice:":50" }}...</p>
+                        <small>{{ solicitud.fecha_creacion }}</small>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+    
+<!-- Modal para ingresar nombre del técnico y fecha -->
+<div id="tecnicoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Asignar Técnico</h2>
+        <form id="OrdenTrabajoForm" method="POST" action="{% url 'gestion_ot' %}">
+            {% csrf_token %}
+            <input type="hidden" id="numero_activo" name="numero_activo">
+            
+            <label for="fecha_actividad">Fecha de la Actividad:</label>
+            <input type="date" id="fecha_actividad" name="fecha_actividad" required>
+
+            <label for="tecnico_asignado">Nombre del Técnico:</label>
+            <input type="text" id="tecnico_asignado" name="tecnico_asignado" required>
+
+            <label for="estado">Estado:</label>
+            <input type="text" id="estado" name="estado" value="OT en Proceso" required>
+    
+            <button type="submit" name="actualizar">Guardar</button>
+        </form>
+        <div id="modalError" style="color: red; display: none;">Error al actualizar la solicitud. Intente de nuevo.</div>
+    </div>
+</div>
+{% endblock %}

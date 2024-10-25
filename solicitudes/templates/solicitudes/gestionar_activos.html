@@ -1,0 +1,122 @@
+{% extends "solicitudes/indexpadre.html" %}
+
+{% block title %}Gestión de Activos{% endblock %}
+
+{% block content %}
+    <h1>Gestión de Activos</h1>
+
+    <!-- Formulario para crear Región -->
+    <h2>Crear Región</h2>
+    <form id="region-form" method="post">
+        {% csrf_token %}
+        {{ region_form.as_p }}
+        <button type="submit" name="crear_region">Guardar Región</button>
+        {% if region_form.errors %}
+            <div class="errors">
+                {{ region_form.errors }}
+            </div>
+        {% endif %}
+    </form>
+
+    <!-- Lista de Regiones -->
+    <h2>Lista de Regiones</h2>
+    <table id="region-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for region in regiones %}
+            <tr>
+                <td>{{ region.nombre }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Formulario para crear PDV -->
+    <h2>Crear Punto de Venta</h2>
+    <form id="pdv-form" method="post">
+        {% csrf_token %}
+        {{ pdv_form.as_p }}
+        <button type="submit" name="crear_pdv">Guardar PDV</button>
+        {% if pdv_form.errors %}
+            <div class="errors">
+                {{ pdv_form.errors }}
+            </div>
+        {% endif %}
+    </form>
+
+    <!-- Lista de Puntos de Venta -->
+    <h2>Lista de Puntos de Venta</h2>
+    <table id="pdv-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Región</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pdv in pdvs %}
+            <tr>
+                <td>{{ pdv.nombre }}</td>
+                <td>{{ pdv.codigo }}</td>
+                <td>{{ pdv.region.nombre }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Formulario para crear Activo -->
+    <h2>Crear Activo</h2>
+    <form id="activo-form" method="post">
+        {% csrf_token %}
+        {{ activo_form.punto_de_venta }}
+        <label for="tipo_subconjunto">Tipo de Subconjunto:</label>
+        <select id="tipo_subconjunto" name="tipo_subconjunto">
+            <option value="maquinaria">Maquinaria</option>
+            <option value="locativo">Locativo</option>
+        </select>
+        <div id="maquinaria-fields" style="display: none;">
+            {{ activo_form.tipo_equipo }}
+            {{ activo_form.nombre_equipo }}
+            {{ activo_form.tipo_maquinaria }}
+        </div>
+        <div id="locativo-fields" style="display: none;">
+            {{ activo_form.tipo_locativo }}
+        </div>
+        <button type="submit" name="crear_activo">Guardar Activo</button>
+        {% if activo_form.errors %}
+            <div class="errors">
+                {{ activo_form.errors }}
+            </div>
+        {% endif %}
+    </form>
+
+    <!-- Lista de Activos -->
+    <h2>Lista de Activos</h2>
+    <table id="activo-table">
+        <thead>
+            <tr>
+                <th>Punto de Venta</th>
+                <th>Tipo de Equipo</th>
+                <th>Nombre del Equipo</th>
+                <th>Tipo de Maquinaria</th>
+                <th>Tipo de Locativo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activo in activos %}
+            <tr>
+                <td>{{ activo.punto_de_venta }}</td>
+                <td>{{ activo.tipo_equipo }}</td>
+                <td>{{ activo.nombre_equipo }}</td>
+                <td>{{ activo.tipo_maquinaria }}</td>
+                <td>{{ activo.tipo_locativo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

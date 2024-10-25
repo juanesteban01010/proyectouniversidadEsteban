@@ -1,0 +1,28 @@
+{% extends "solicitudes/indexpadre.html" %}
+
+{% block title %}Órdenes de Trabajo{% endblock %}
+
+{% block content %}
+<h1>Órdenes de Trabajo Asignadas</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Número de OT</th>
+            <th>Técnico Asignado</th>
+            <th>Fecha de Actividad</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ot in ots %}
+        <tr>
+            <td>OT-00{{ ot.numero_solicitud }}</td>
+            <td>{{ ot.tecnico_asignado }}</td>
+            <td>{{ ot.fecha_actividad }}</td>
+            <td>{{ ot.estado }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

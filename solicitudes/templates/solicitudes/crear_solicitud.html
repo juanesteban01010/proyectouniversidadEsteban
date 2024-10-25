@@ -1,0 +1,52 @@
+{% extends "solicitudes/indexpadre.html" %}
+
+{% block title %}solicitudes{% endblock %}
+
+
+{% block content %}
+    <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="text" id="creado-por" name="creado_por" placeholder=" ">
+        <label for="creado-por">Creado por</label>
+    </div>
+    <div class="form-group">
+        <textarea id="descripcion_problema" name="descripcion_problema" rows="2" placeholder=" "></textarea>
+        <label for="descripcion_problema">Descripción solicitud</label>
+    </div>
+    <div class="form-group">
+        <input type="date" id="fecha-creacion" name="fecha_creacion" placeholder=" ">
+        <label for="fecha-creacion">Fecha de creación</label>
+    </div>
+    <div class="form-group">
+        <input type="time" id="hora-creacion" name="hora_creacion" placeholder=" ">
+        <label for="hora-creacion">Hora de creación</label>
+    </div>
+    <div class="form-group">
+        <textarea id="observaciones" name="observaciones" rows="2" placeholder=" "></textarea>
+        <label for="observaciones">Observaciones</label>
+    </div>
+    <div class="form-group">
+        <input type="text" id="solicitado_por" name="solicitado_por" placeholder="">
+        <label for="solicitado_por">Solicitado por</label>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email-solicitante" name="email_solicitante" placeholder="">
+        <label for="email-solicitante">Email del solicitante</label>
+    </div>
+    <div class="form-group">
+        <input type="text" id="PDV" name="PDV" placeholder="">
+        <label for="PDV">PDV</label>
+    </div>
+    <div class="form-group">
+        <input type="text" id="numero_activo" name="numero_activo" placeholder="">
+        <label for="numero_activo">N° de activo fijo</label>
+    </div>
+    {% comment %} <div class="form-group">
+        <input type="text" id="" name="numero_activo" placeholder="">
+        <label for="numero_activo">N° de activo fijo</label>
+    </div> {% endcomment %}
+    <button type="submit">Enviar</button>
+    </form>
+{% endblock %}
+
